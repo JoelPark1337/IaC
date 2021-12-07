@@ -1,0 +1,32 @@
+{
+    "variables":{
+        "aws_access_key":"{{env `AWS_ACCESS_KEY`}}",
+        "aws_secret_key":"{{env `AWS_SECRET_KEY`}}",
+        "region":"ap-northeast-2",
+        "subnet_id":"subnet-0fa0273a36768c5f9"
+    },
+    "builders":[
+        {
+            "access_key":"{{user `aws_access_key`}}",
+            "secret_key":"{{user `aws_secret_key`}}",
+            "source_ami":"ami-0252a84eb1d66c2a0",
+            "instance_type":"t2.micro",
+            "region":"{{user `region`}}",
+            "ssh_username":"ubuntu",
+            "associate_public_ip_address": true,
+            "type":"amazon-ebs",
+            "ami_name":"pakcer-test-{{timestamp}}",
+            "subnet_id":"{{user `subnet_id`}}"
+        }
+    ],
+    "provisioners":[
+        {
+            "type":"shell",
+            "script":"scripts/security.sh"
+        },
+        {
+            "type":"shell",
+            "script":"scripts/cleanup.sh"
+        }
+    ]
+}
