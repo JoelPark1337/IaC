@@ -13,15 +13,15 @@ resource "aws_instance" "ec2_server" {
 
     provisioner "local-exec" {
         command = <<EOF
-            echo "[demo]" > inventory
-            echo "${aws_instance.demo.public_ip} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/your_private_key.pem" >> inventory
+            echo "[demo]" > ../ansible/inventory
+            echo "${aws_instance.ec2_server.public_ip} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/your_private_key.pem" >> ../ansible/inventory
             EOF
     }
 
     provisioner "local-exec" {
         command = <<EOF
             ANSIBLE_HOST_KEY_CHECKING=False \
-            ansible-playbook -i inventory site.yml
+            ansible-playbook -i ../ansible/inventory ../ansible/site.yml
             EOF
     }
 }
