@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  apt: name={{item}} state=present
+  with_items:
+    - python3-pip
+    - python3-dev
+
+- name: Move Requirements
+  template:
+    src: templates/requirements.txt
+    dest: /home/ubuntu/requirements.txt
+
+- name: Install Python Lib
+  pip:
+    requirements: /home/ubuntu/requirements.txt
+    executable: pip3
