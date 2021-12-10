@@ -7,13 +7,27 @@
   with_items:
     - python3-pip
     - python3-dev
+    - uwsgi
+    - uwsgi-plugin-python3
+- name: Create Directory
+  file:
+    path: /home/ubuntu/app
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+    recurse: yes
 
 - name: Move Requirements
-  template:
-    src: templates/requirements.txt
-    dest: /home/ubuntu/requirements.txt
+  copy:
+    src: "{{ item }}"
+    dest: "/home/ubuntu/app/"
+    owner: ubuntu
+    mode: 0640
+  with_fileglob:
+    - "templates/*"
 
 - name: Install Python Lib
   pip:
-    requirements: /home/ubuntu/requirements.txt
+    requirements: /home/ubuntu/app/requirements.txt
     executable: pip3

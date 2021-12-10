@@ -14,7 +14,7 @@ resource "aws_instance" "ec2_server" {
     provisioner "local-exec" {
         command = <<EOF
             echo "[demo]" > ../ansible/inventory
-            echo "${aws_instance.ec2_server.public_ip} ansible_ssh_user=<name> ansible_ssh_private_key_file=<path>" >> ../ansible/inventory
+            echo "${aws_instance.ec2_server.public_ip} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/joel/terraform.pem" >> ../ansible/inventory
             EOF
     }
 
